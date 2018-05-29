@@ -1,12 +1,16 @@
 const Discord = require('discord.js');
-const bot = new Discord.Client();
+const client = new Discord.Client();
 
-bot.on('message', (message) =>{
-	
-	if(message.content == 'ping'){
-		messege.channel.sendMessage('pong');
-	}
-	
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
 });
 
-bot.login('token do bota');
+client.on('message', msg => {
+  if (msg.content == '-ping')  {
+    msg.reply('Pong!');
+  }
+  if (msg.content == '-avatar') {
+    msg.reply(msg.author.avatarURL);
+  }
+});
+client.login('token');
