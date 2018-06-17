@@ -5,20 +5,21 @@ const client = new Discord.Client();
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity("Undertale Literature Club!", 'https://www.twitch.tv/naurs07');
+  client.user.setActivity("Undertale Literature Club!");
   client.user.setStatus("dnd");
 });
 
 client.on('message', msg => {
   let prefix = botconfig.prefix;
+  let cmd = msg.content;
 
-  if (msg.content == `${prefix}ping`)  {
-    msg.channel.send('Pong!🏓 '+ `${Date.now() - msg.createdTimestamp}` + ' ms');
+  if (cmd == `${prefix}ping`)  {
+   msg.channel.send('Pong!🏓 '+ `${msg.client.ping}` + ' ms');
   }
-  if (msg.content == `${prefix}avatar`) {
+  if (cmd == `${prefix}avatar`) {
     msg.channel.send(msg.author.avatarURL);
   }
-  if (msg.content == `${prefix}botinfo`){
+  if (cmd == `${prefix}botinfo`){
     const embed = new Discord.RichEmbed()
     .setDescription("BOT INFO")
     .setColor(0x2839FF)
@@ -30,7 +31,7 @@ client.on('message', msg => {
 
     msg.channel.send({embed});
   }
-  if (msg.content == `${prefix}serverinfo`){
+  if (cmd == `${prefix}serverinfo`){
     const embed = new Discord.RichEmbed()
     .setDescription("BOT INFO")
     .setColor(0x2839FF)
@@ -43,6 +44,20 @@ client.on('message', msg => {
     .setTimestamp();
 
     msg.channel.send({embed});
+  }
+  if(cmd == `${prefix}kick`){
+    let kUser = msg.guild.member(msg.mentions.user);
+    if(!kUser){
+      msg.channel.send("Can't find user!!!");
+    }
+    if(!msg.member.hasPermission("MANAGE_MESSAGES")){
+      msg.channel.send("You have no power here");
+    }
+    if(kUser.hasPermission){
+      msg.channel.send("This man is good, also i can't kick");
+    }
+    msg.guild.member(kUser).kick("Bo tak"); 
+    msg.channel.send("Pal has kicked");
   }
 });
 
